@@ -59,7 +59,7 @@ class ServerConn:
         xes_status=self.c.run("virsh list --all |grep %s |awk '{print $NF}'" %(self.vmname))
         if xes_status != 'running':
             self.c.run('sed -i "/<boot dev=\'hd\'\/>/a\  <smbios mode=\'sysinfo\'\/>" /etc/libvirt/qemu/%s.xml' % (self.vmname))
-            self.c.run('sed -i "/<\/vcpu>/a\  <sysinfo type=\'smbios\'><bios><entry name=\'vendor\'>MAYULONG</entry></bios><system><entry name=\'manufacturer\'>XCloud</entry><entry name=\'product\'>XCloud ECS</entry><entry name=\'version\'>pc-i440fx-2.1</entry><entry name=\'serial\'>Not Specified</entry><entry name=\'family\'>Not Specified</entry></system></sysinfo>" /etc/libvirt/qemu/%s.xml' % (self.vmname))
+            self.c.run('sed -i "/<\/vcpu>/a\  <sysinfo type=\'smbios\'><bios><entry name=\'vendor\'>Fenghua</entry></bios><system><entry name=\'manufacturer\'>XCloud</entry><entry name=\'product\'>XCloud ECS</entry><entry name=\'version\'>pc-i440fx-2.1</entry><entry name=\'serial\'>Not Specified</entry><entry name=\'family\'>Not Specified</entry></system></sysinfo>" /etc/libvirt/qemu/%s.xml' % (self.vmname))
             self.c.run('sed -i "s/clock offset=\'utc\'/clock offset=\'localtime\'/" /etc/libvirt/qemu/%s.xml' % (self.vmname))
             self.c.run('sed -i "/<\/features>/a\  <cpu mode=\'host-passthrough\'>" /etc/libvirt/qemu/%s.xml' %(self.vmname))
             self.c.run('sed -i "/<cpu mode=\'host-passthrough\'>/a\  </cpu>" /etc/libvirt/qemu/%s.xml' %(self.vmname))
