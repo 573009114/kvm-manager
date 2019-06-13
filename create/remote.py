@@ -33,7 +33,7 @@ class ServerConn:
             user='%s' % self.user,
             port = self.port,
             connect_timeout=30,
-            connect_kwargs={"password": "woLIj55)GTN1ZM_PZ<[_"})
+            connect_kwargs={"password": ")GTN1ZM_PZ<[_"})
 
     
     def install_vm(self):
