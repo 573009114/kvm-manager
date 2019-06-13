@@ -1,0 +1,144 @@
+{% load i18n %}
+{% load tags_active %}
+<div class="row">
+    <div class="col-xs-12">
+        <div class="page-header">
+		    
+        	{% if instances %}
+             <a data-toggle="modal" href="{% url 'create' host_id %}#addCustom" class="btn btn-sm btn-success pull-right">{% trans "新建虚机实例" %}</a>
+			{% else %}
+			 <a data-toggle="modal" href="{% url 'create' host_id %}#addCustom" class="btn btn-sm btn-success pull-right">{% trans "新建虚机实例" %}</a>
+			{%endif%}
+            <h1><a href="{% url 'overview' host_id %}">{{ compute }}</a></h1>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="sidebar col-xs-12 col-sm-3">
+        <ul>
+            <li>
+                <a href="{% url 'instances' host_id %}"
+                   class="list {% active request "^/instance" %}">{% trans "Instances" %}</a>
+            </li>
+<!--             <li>
+                <a href="{% url 'storages' host_id %}"
+                   class="list {% active request "^/storage" %}">{% trans "Storages" %}</a>
+            </li>
+            <li>
+                <a href="{% url 'networks' host_id %}"
+                   class="list {% active request "^/network" %}">{% trans "Networks" %}</a>
+            </li>
+            <li>
+                <a href="{% url 'interfaces' host_id %}"
+                   class="list {% active request "^/interface" %}">{% trans "Interfaces" %}</a>
+            </li>
+            <li>
+                <a href="{% url 'secrets' host_id %}"
+                   class="list {% active request "^/secrets" %}">{% trans "Secrets" %}</a>
+            </li>
+            <li>
+                <a href="{% url 'overview' host_id %}" class="list {% active request "^/host" %}">{% trans "Overview" %}</a>
+            </li> -->
+        </ul>
+    </div>
+<!--ADD COSTDOM-->
+        <div class="modal fade" id="addCustom" tabindex="-1" role="dialog" aria-labelledby="addCustomLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans "创建虚拟机" %}</h4>
+                </div>
+                <form class="form-horizontal" method="post" id='myForm' action="{% url 'create' host_id %}" role="form">{% csrf_token %}
+                   <div class="form-group">
+                        <label class="col-sm-3 control-label">{% trans "虚机选型" %}</label>
+                        <div class="col-sm-6">
+                            <select id="cache_mode" name="someargs" class="form-control">
+									<option value="1|1024">{% trans "标准型：1核vCPU、1GB内存" %}</option>
+									<option value="1|2048">{% trans "标准型：1核vCPU、2GB内存" %}</option>
+									<option value="2|2048">{% trans "标准型：2核vCPU、2GB内存" %}</option>
+									<option value="2|4096">{% trans "标准型：2核vCPU、4GB内存" %}</option>
+									<option value="4|4096">{% trans "标准型：4核vCPU、4GB内存" %}</option>
+									<option value="4|8192">{% trans "标准型：4核vCPU、8GB内存" %}</option>
+									<option value="8|8192">{% trans "标准型：8核vCPU、8GB内存" %}</option>
+									<option value="8|16384">{% trans "标准型：8核vCPU、16GB内存" %}</option>
+									<option value="2|8192">{% trans "内存型：2核vCPU、8GB内存" %}</option>
+									<option value="4|16384">{% trans "内存型：4核vCPU、16GB内存" %}</option>
+                            </select>
+                        </div>
+                    </div>
+  
+                    <div class="form-group">
+					    <label class="col-sm-3 control-label">{% trans "系统盘" %}</label>
+                      
+                        <label class="col-sm-1 control-label">{% trans "30GB" %}</label>
+                    </div>
+  
+  
+					<div class="form-group">
+                        <label class="col-sm-3 control-label">{% trans "数据盘" %}</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="disk" value="50" maxlength="5" required
+                                   pattern="[0-9]+">
+                        </div>
+                        <label class="col-sm-1 control-label">{% trans "GB" %}</label>
+                    </div>
+					 
+
+                					
+					<div class="form-group">
+                        <label class="col-sm-3 control-label">{% trans "IP" %}</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="ipaddr"  maxlength="15" required onkeyup="this.value=this.value.replace(/\s+/g,'')">
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="col-sm-3 control-label">{% trans "子网掩码" %}</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="netmask"  maxlength="15" required onkeyup="this.value=this.value.replace(/\s+/g,'')">
+                        </div>
+                    </div>
+					<div class="form-group">
+                        <label class="col-sm-3 control-label">{% trans "网关" %}</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="gateway"  maxlength="15" required onkeyup="this.value=this.value.replace(/\s+/g,'')">
+                        </div>
+                    </div>
+					
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{% trans "操作系统" %}</label>
+
+                        <div class="col-sm-6">
+                            <select id="cache_mode" name="someos" class="form-control">
+                                    <option value="CentOS-6.5-x86_64">{% trans "CentOS-6.5-x86_64" %}</option>
+									<option value="CentOS-6.9-x86_64">{% trans "CentOS-6.9-x86_64" %}</option>
+									<option value="CentOS-7.5-x86_64">{% trans "CentOS-7.5-x86_64" %}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--底部提交-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Close" %}</button>
+                        {% if instances %}
+                        <button type="button" class="btn btn-primary"  onclick = "submitform();" data-loading-text="Loading...">{% trans "Create" %}</button>
+						 
+                        {% else %}
+						<button type="button" class="btn btn-primary" onclick = "submitform();" data-loading-text="Loading...">{% trans "Create" %}</button>
+                        {% endif %}
+                    </div>
+					<!--提交结束-->
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+<script>
+	function submitform(){
+		document.getElementById("myForm").submit();
+	}	
+	
+</script> 
