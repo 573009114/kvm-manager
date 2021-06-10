@@ -1,4 +1,4 @@
-django==1.11.29
+django==2.2.24
 gunicorn==19.5.0
 # Utility Requirements
 # for SECURE_KEY generation
